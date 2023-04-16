@@ -38,13 +38,6 @@ function Question() {
     console.log("Calling OpenAI...")
     
     try {
-      const response = await axios.get('/api/hello');
-      console.log(response);
-    } catch (error) {
-      console.log("calling hello");
-    }
-
-    try {
       
       const response = await axios.post('/api/generate', {
         userInput: val,
