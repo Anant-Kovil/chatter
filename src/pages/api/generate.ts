@@ -5,25 +5,20 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-
 const openai = new OpenAIApi(configuration);
-const basePromptPrefix = "you are lex fridman, an AI researcher and podcaster. Answer the question in that format.  Keep the response short. ";
 
-export default async function generateAction (req: NextApiRequest,
+
+export default async function generateAction(req: NextApiRequest,
   res: NextApiResponse) {
-  console.log(`API: ${basePromptPrefix}${req.body.userInput}`)
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: req.body.userInput});
 
-  // console.log("reached api: " + process.env.OPENAI_API_KEY)
+  const basePromptOutput = completion.data.choices[0].message;
 
-  const baseCompletion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: `${basePromptPrefix}${req.body.userInput}`,
-    temperature: 0.7,
-    max_tokens: 250,
-  });
-  
-  const basePromptOutput = baseCompletion.data.choices.pop();
-  // res.status(200).json({ output: process.env.OPENAI_API_KEY });
+  console.log(basePromptOutput);
 
-  res.status(200).json({ output: basePromptOutput });
-};
+  console.log(req.body.userInput);
+
+  res.status(200).json({ output: basePromptOutput});
+}

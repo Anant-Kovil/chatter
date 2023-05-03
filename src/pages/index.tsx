@@ -2,14 +2,18 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { Input } from "@material-tailwind/react";
-import { useState } from "react";
+import { Input, input } from "@material-tailwind/react";
+import { useState , useEffect} from "react";
 import generateAction from './api/generate'
 import React from "react";
 import axios from 'axios';
 
+interface openAIResponse {
+  role: string;
+  content: string;
+}
+
 export default function Home() {
-  
   return (
     <>
       <Head>
@@ -17,7 +21,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="container mx-auto bg-gray-200 rounded-xl shadow border p-8 m-10">
-        <h1 className="text-gray-700 text-lg text-center" >Chatter App</h1>
+        <h1 className="text-gray-700 text-lg text-center" >Personal Finance mentor</h1>
       </div>
       <Question />
     </>
@@ -25,29 +29,69 @@ export default function Home() {
 }
 
 function Question() {
-  const [val, setVal] = useState("");
+
+  // represents the input field
+  const [inputField, setInputField] = useState("");
+
+  // Represents the messages as an array
   const [messages, setMessages] = useState<string[]>([]);
-  const [apiOutput, setApiOutput] = useState('')
+
+  // represents the api output, fine tuning here (add more prompts, etc.)
+  const basePromptPrefix = "You are a personal finance guru that specializes in personal finance. Keep answers short. ";
+  const [apiOutput, setApiOutput] = useState<openAIResponse[]>([{"role": "system", "content": `${basePromptPrefix}`}]);
+
+  // represents the state of the button
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const callGenerateEndpoint = async () => {
+  // used to debug api output
+  // useEffect(() => {
+  //   console.log(apiOutput);
+  // }, [apiOutput]);
+
+  // function that update app accordingly when a user either hits enter or clicks the button for the chat
+  const click = () => {
+    if (inputField == "") {
+      return;
+    }
+    if (isGenerating) {
+      return;
+    }
+    setMessages((prevMessages) => [...prevMessages, "You: " + inputField]);
+    // Adding what the user is asking the bot
+    setApiOutput((prevApi) => [...prevApi, {role: "user", content: inputField}]);
+    // sets it to true to call the generate endpoint
     setIsGenerating(true);
-  
+    
+
+    // callGenerateEndpoint();
+    setInputField("");
+  }
+
+  // useEffect that calls the generate endpoint when the apiOutput is updated
+  useEffect(() => {
+    if (!isGenerating) {
+      return;
+    } else if(apiOutput.length > 0) {
+      callGenerateEndpoint();
+    }
+  }, [apiOutput]);
+
+  // function that calls the generate endpoint
+  const callGenerateEndpoint = async () => {
     console.log("Calling OpenAI...")
 
     try {
-      
+      console.log("API log before request: " + [apiOutput])
       const response = await axios.post('/api/generate', {
-        userInput: val,
+        userInput: apiOutput,
       });
-  
       const data = await response.data;
-      const { output } = data;
-      console.log(data)
-    
-      console.log("OpenAI replied...", output.text);
-      setMessages((prevMessages) => [...prevMessages, "Bot: " + output.text]);
-      setApiOutput(output.text);
+      const { output } = data;   
+
+      // Adding the response from the bot
+      setApiOutput((prevApi) => [...prevApi, output]);
+      console.log("OpenAI replied...", output.content);
+      setMessages((prevMessages) => [...prevMessages, "Bot: " + output.content]);
     } catch (error) {
       console.log("Error calling OpenAI API:", error);
     } finally {
@@ -55,23 +99,31 @@ function Question() {
     }
   }
 
-  const click = () => {
-    setMessages((prevMessages) => [...prevMessages, "You: " + val]);
-    setVal("");
-    callGenerateEndpoint();
-  }
-
-  const change = (event: any) => {
-    setVal(event.target.value);
-  }
-
   return (
     <div className="container mx-auto">
-      <p>
-        ask lex a question
-      </p>
-      <Input onChange={change}
-        value={val} />
+
+      <p className="text-slate-600	">
+      DISCLAIMER: This chatbot is designed to provide general information and guidance on personal finance topics. 
+      It is not a substitute for professional financial advice, and we encourage you to seek the advice of a qualified 
+      financial advisor for personalized recommendations. The information provided by this chatbot is based on the best 
+      available resources and practices, but we cannot guarantee the accuracy, completeness, or reliability of the information. 
+      By using this chatbot, you agree that we shall not be liable for any damages or losses arising from your use of, or reliance on, 
+      the information provided by this chatbot.
+    </p>
+    <br></br>
+
+      { // Represents the input field in form, what's happening is when you input something, 
+        // the change function is taking care of the update in the box.  Also calls the click method
+        // when a user hits enter :)
+      }
+      <Input 
+        onChange={(e) => {setInputField(e.currentTarget.value)}}
+        value={inputField}
+        onKeyPress = {(e) => {if (e.key === "Enter") {click()}}}
+      />
+        
+      { // the click method updates the data in the input field
+      }
       <button onClick={click} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Click me!
       </button>
@@ -85,6 +137,7 @@ function Question() {
           </p>
         )}
       </div>
+
     </div>
   );
 }
