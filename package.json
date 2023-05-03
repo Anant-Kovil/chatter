@@ -9,7 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/css": "^11.10.8",
+    "@emotion/react": "^11.10.8",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.8",
+    "@fontsource/roboto": "^4.5.8",
     "@material-tailwind/react": "^1.4.2",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.3",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
