@@ -7,7 +7,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-
+// 
 export default async function generateAction(req: NextApiRequest,
   res: NextApiResponse) {
   const completion = await openai.createChatCompletion({
