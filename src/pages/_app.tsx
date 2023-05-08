@@ -14,6 +14,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
 import initMyFirebase from '../../firebase/firebaseinit';
+import { Analytics } from '@vercel/analytics/react';
+
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -25,6 +27,7 @@ export interface MyAppProps extends AppProps {
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   initMyFirebase();
+  <Analytics />
 
   return (
     <CacheProvider value={emotionCache}>
@@ -37,6 +40,7 @@ export default function MyApp(props: MyAppProps) {
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
+    
   );
 }
 
