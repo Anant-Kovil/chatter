@@ -195,7 +195,7 @@ function Question() {
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <p style={{ margin: 0 }}>
-            Welcome, {auth.currentUser?.displayName.split(' ')[0]}
+            Welcome, {auth.currentUser?.displayName}
           </p>
           </Box>
           <Button variant="contained" onClick={handleLogout} sx={{ ml: 1 }}>
