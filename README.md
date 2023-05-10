@@ -1,38 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+**ChatterAI Personal Finance Chatbot**
+ChatterAI is a web-based chatbot application designed to help people better understand personal finance. Powered by advanced natural language processing capabilities and state-of-the-art machine learning models such as GPT and LLMs, ChatterAI can assist users with a wide range of personal finance inquiries, from budgeting and saving to investing and retirement planning.
 
-## Getting Started
+With an intuitive and user-friendly interface, ChatterAI makes it easy for users to engage in natural conversations with the chatbot, allowing them to ask questions and receive personalized financial advice in real-time. Whether you're new to personal finance or a seasoned investor, ChatterAI can help you navigate the complex world of finance with ease.
 
-First, run the development server:
+ChatterAI is constantly evolving and improving, with regular updates and enhancements being added to ensure the best possible user experience. It's the perfect tool for anyone looking to improve their financial literacy and make smarter financial decisions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+**Features**
+- Personalized financial advice
+- Natural language processing capabilities
+- State-of-the-art machine learning models
+- Intuitive and user-friendly interface
+- Regular updates and enhancements
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Technologies**
+- Nodejs
+- Typescript
+- React
+- OpenAI API (GPT 3.5-Turbo)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Usage**
+To start using ChatterAI, simply visit our website and start chatting with our chatbot. Our chatbot is available 24/7 to assist you with any personal finance questions you may have.
