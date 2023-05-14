@@ -4,7 +4,8 @@ import Typewriter from 'typewriter-effect';
 
 const IndexPage = () => {
   return (
-    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
+    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5',   paddingLeft: '30px', 
+    paddingRight: '30px' }}>
       <div style={{ position: 'absolute', top: '10px', left: '10px', backgroundColor: '#0077b6', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8em' }}>Public Beta</div>
       <h1 style={{ textAlign: 'center', fontSize: '3em', fontWeight: 'bold' }}>ChatterAi</h1>
       <h2 style={{ marginTop: '-2rem', textAlign: 'center', fontSize: '1.5em', fontWeight:150 }}>Your personal finance assistant</h2>

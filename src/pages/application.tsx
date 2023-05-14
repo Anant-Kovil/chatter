@@ -5,8 +5,7 @@
 // auth page
 
 import Head from 'next/head'
-// import { Input, input } from "@material-tailwind/react";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -15,8 +14,6 @@ import '@fontsource/roboto/700.css';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-// import TextField from '@mui/material/TextField';
-import Input from '@mui/material/Input';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -25,8 +22,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import {getAuth, signOut} from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 
 
@@ -64,7 +60,7 @@ const styles = {
     flexGrow: 1
   },
   typography: {
-flexGrow: 1,
+    flexGrow: 1,
     align: "center"
   }
 };
@@ -80,7 +76,7 @@ function Question() {
 
   // represents the api output, fine tuning here (add more prompts, etc.)
   const basePromptPrefix = "You are a personal finance guru that specializes in personal finance. Keep answers short. ";
-  const [apiOutput, setApiOutput] = useState<openAIResponse[]>([{"role": "system", "content": `${basePromptPrefix}`}]);
+  const [apiOutput, setApiOutput] = useState<openAIResponse[]>([{ "role": "system", "content": `${basePromptPrefix}` }]);
 
   // represents the state of the button
   const [isGenerating, setIsGenerating] = useState(false)
@@ -100,10 +96,10 @@ function Question() {
     }
     setMessages((prevMessages) => [...prevMessages, "You: " + inputField]);
     // Adding what the user is asking the bot
-    setApiOutput((prevApi) => [...prevApi, {role: "user", content: inputField}]);
+    setApiOutput((prevApi) => [...prevApi, { role: "user", content: inputField }]);
     // sets it to true to call the generate endpoint
     setIsGenerating(true);
-    
+
 
     // callGenerateEndpoint();
     setInputField("");
@@ -113,7 +109,7 @@ function Question() {
   useEffect(() => {
     if (!isGenerating) {
       return;
-    } else if(apiOutput.length > 0) {
+    } else if (apiOutput.length > 0) {
       callGenerateEndpoint();
     }
   }, [apiOutput]);
@@ -128,7 +124,7 @@ function Question() {
         userInput: apiOutput,
       });
       const data = await response.data;
-      const { output } = data;   
+      const { output } = data;
 
       // Adding the response from the bot
       setApiOutput((prevApi) => [...prevApi, output]);
@@ -151,7 +147,7 @@ function Question() {
       threshold: 0,
       target: window ? window() : undefined,
     });
-  
+
     return React.cloneElement(children, {
       elevation: trigger ? 4 : 0,
     });
@@ -180,83 +176,80 @@ function Question() {
     const unsubscribe = auth.onAuthStateChanged(authStateChangeHandle)
 
     return () => unsubscribe();
-    } , []);
+  }, []);
 
   return (
     <div>
+      <React.Fragment>
+        <CssBaseline />
+        <ElevationScroll>
+          <AppBar color="inherit">
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant="h6" component="div">
+                ChatterAI
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <p style={{ margin: 0 }}>
+                  Welcome, {auth.currentUser?.displayName}
+                </p>
+              </Box>
+              <Button variant="contained" onClick={handleLogout} sx={{ ml: 1 }}>
+                Sign out
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </ElevationScroll>
+        <Toolbar />
+        <Container>
 
-<React.Fragment>
-  <CssBaseline />
-  <ElevationScroll>
-    <AppBar color="inherit">
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" component="div">
-          ChatterAI
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <p style={{ margin: 0 }}>
-            Welcome, {auth.currentUser?.displayName}
+          <p className="text-slate-600">
+            DISCLAIMER: This website is designed to provide general information and guidance on personal finance topics.
+            It is not a substitute for professional financial advice, and we encourage you to seek the advice of a qualified
+            financial advisor for personalized recommendations. The information provided by this chatbot is based on the best
+            available resources and practices, but we cannot guarantee the accuracy, completeness, or reliability of the information.
+            By using this chatbot, you agree that we shall not be liable for any damages or losses arising from your use of, or reliance on,
+            the information provided by this chatbot.
           </p>
-          </Box>
-          <Button variant="contained" onClick={handleLogout} sx={{ ml: 1 }}>
-            Sign out
-          </Button>
-      </Toolbar>
-    </AppBar>
-  </ElevationScroll>
-  <Toolbar />
-  <Container>
+          <br></br>
+
+          { // Represents the input field in form, what's happening is when you input something, 
+            // the change function is taking care of the update in the box.  Also calls the click method
+            // when a user hits enter :)
+          }
+
+          <Stack direction="row" spacing={2} alignItems="flex-center" justifyContent="center">
+
+            <TextField
+              onChange={(e: any) => { setInputField(e.currentTarget.value) }}
+              value={inputField}
+              onKeyPress={(e: any) => { if (e.key === "Enter") { click() } }}
+              id="outlined-multiline-static"
+              label="Enter your question"
+              defaultValue="Default Value"
+              fullWidth={true}
+            />
+
+            <Button onClick={click}
+              variant="contained"
+              endIcon={<SendIcon />}>
+              Send
+            </Button>
+          </Stack>
+
+          <div>
+            {messages.length > 0 && (
+              <p>
+                Messages: <br />
+                {messages.map((element, index) => (
+                  <p key={index}>{element}</p>
+                ))}
+              </p>
+            )}
+          </div>
 
 
-      
-      <p className="text-slate-600">
-      DISCLAIMER: This website is designed to provide general information and guidance on personal finance topics. 
-      It is not a substitute for professional financial advice, and we encourage you to seek the advice of a qualified 
-      financial advisor for personalized recommendations. The information provided by this chatbot is based on the best 
-      available resources and practices, but we cannot guarantee the accuracy, completeness, or reliability of the information. 
-      By using this chatbot, you agree that we shall not be liable for any damages or losses arising from your use of, or reliance on, 
-      the information provided by this chatbot.
-    </p>
-    <br></br>
-
-      { // Represents the input field in form, what's happening is when you input something, 
-        // the change function is taking care of the update in the box.  Also calls the click method
-        // when a user hits enter :)
-      }
-
-      <Stack direction="row" spacing={2} alignItems="flex-center" justifyContent="center">  
-      
-      <TextField 
-          onChange={(e:any) => {setInputField(e.currentTarget.value)}}
-          value={inputField}
-          onKeyPress = {(e:any) => {if (e.key === "Enter") {click()}}}
-          id="outlined-multiline-static"
-          label="Enter your question"
-          defaultValue="Default Value"
-          fullWidth = {true}
-        />
-
-      <Button onClick={click} 
-      variant="contained" 
-      endIcon={<SendIcon />}>
-        Send
-      </Button>
-      </Stack>
-      
-      <div>
-        {messages.length > 0 && (
-          <p>
-            Messages: <br />
-            {messages.map((element, index) => (
-              <p key={index}>{element}</p>
-            ))}
-          </p>
-        )}
-      </div>
-
-
-    </Container>
-    </React.Fragment>
+        </Container>
+      </React.Fragment>
     </div>
   );
 }
