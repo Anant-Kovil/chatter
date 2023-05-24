@@ -7,18 +7,24 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-// 
-export default async function generateAction(req: NextApiRequest,
-  res: NextApiResponse) {
-  const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: req.body.userInput});
+export default async function generateAction(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    console.log("Request body:", req.body);
 
-  const basePromptOutput = completion.data.choices[0].message;
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: req.body.userInput
+    });
 
-  console.log(basePromptOutput);
+    console.log("Completion response:", completion);
 
-  console.log(req.body.userInput);
+    const basePromptOutput = completion.data.choices[0].message;
 
-  res.status(200).json({ output: basePromptOutput});
+    console.log("Base prompt output:", basePromptOutput);
+
+    res.status(200).json({ output: basePromptOutput });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 }
