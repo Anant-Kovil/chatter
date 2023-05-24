@@ -12,7 +12,7 @@ const IndexPage = () => {
       <div style={{ display: 'flex', marginTop: '2rem', fontSize: '1.5em', justifyContent: 'center', alignItems: 'center' }}>
         <Typewriter
           options={{
-            strings: [  'What are the best ways to save for retirement?',
+            strings: ['What are the best ways to save for retirement?',
             'How do I start investing in the stock market?',
             'What are the differences between a 401k and an IRA?',
             'What are some good ways to improve my credit score?',

@@ -3,7 +3,8 @@
 // Fix styling, look into scss instead
 // fix up UI especially
 // auth page
-
+import React from "react";
+import router from 'next/router';
 import Head from 'next/head'
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -23,15 +24,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { getAuth, signOut } from "firebase/auth";
-
-
-
-import React from "react";
-import router from 'next/router';
-// import Image from 'next/image'
-// import { Inter } from 'next/font/google'
-// import styles from '@/styles/Home.module.css'
-// import generateAction from './api/generate'
 
 export default function Home() {
   return (
@@ -189,9 +181,9 @@ function Question() {
                 ChatterAI
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <p style={{ margin: 0 }}>
+                {/* <p style={{ margin: 0 }}>
                   Welcome, {auth.currentUser?.displayName}
-                </p>
+                </p> */}
               </Box>
               <Button variant="contained" onClick={handleLogout} sx={{ ml: 1 }}>
                 Sign out

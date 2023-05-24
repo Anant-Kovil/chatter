@@ -14,10 +14,7 @@ const LoginWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-
         console.log(user);
-
-
         router.push("/application");
       })
       .catch((error) => {
