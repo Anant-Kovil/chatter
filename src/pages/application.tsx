@@ -1,8 +1,3 @@
-// checklist:
-// implement types everywhere
-// Fix styling, look into scss instead
-// fix up UI especially
-// auth page
 import React from "react";
 import router from 'next/router';
 import Head from 'next/head'
@@ -24,6 +19,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { getAuth, signOut } from "firebase/auth";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export default function Home() {
   return (
@@ -106,6 +103,7 @@ function Question() {
     }
   }, [apiOutput]);
 
+  
   // function that calls the generate endpoint
   const callGenerateEndpoint = async () => {
     console.log("Calling OpenAI...")
@@ -220,11 +218,13 @@ function Question() {
               defaultValue="Default Value"
               fullWidth={true}
             />
-
-            <Button onClick={click}
+            <Button
+              onClick={click}
               variant="contained"
-              endIcon={<SendIcon />}>
-              Send
+              endIcon={isGenerating ? <CircularProgress size={20} /> : <SendIcon />}
+              disabled={isGenerating}
+            >
+              {isGenerating ? 'Loading' : 'Send'}
             </Button>
           </Stack>
 
