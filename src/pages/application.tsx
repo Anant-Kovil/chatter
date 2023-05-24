@@ -101,7 +101,7 @@ function Question() {
     } else if (apiOutput.length > 0) {
       callGenerateEndpoint();
     }
-  }, [apiOutput]);
+  }, [isGenerating, apiOutput]);
 
   
   // function that calls the generate endpoint
